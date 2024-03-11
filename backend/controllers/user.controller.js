@@ -4,13 +4,13 @@ export const getUsersForSidebar = async (req, res) => {
   try {
     const loggedInUserId = req.user._id;
 
-    const filterUsers = await User.find({
+    const filteredUsers = await User.find({
       _id: { $ne: loggedInUserId },
-    }).select("-password"); // find all users but not the logged user
+    }).select("-password");
 
-    res.status(200).json({ filterUsers });
+    res.status(200).json(filteredUsers);
   } catch (error) {
-    console.log("Error in getUsersForSidebar in controller", error.message);
+    console.error("Error in getUsersForSidebar: ", error.message);
     res.status(500).json({ error: "Internal server error" });
   }
 };
